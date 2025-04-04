@@ -1,11 +1,11 @@
 # taller
 
-Descripciín basisca de su Proyecto de POO ...
+Laboratorio listas enlazadas
 
 # Autores
 
-- Autor 1
-- Autor 2
+- Bryan Bernardo Cardenas Saavedra
+- Cesar Camilo Tulcan Erira
 
 # Herramientas
 
