@@ -74,4 +74,30 @@ public class ListaDoblementeEnlazada<T> {
         }
     }
 
+    public int getTamaño() {
+        return tamaño;
+    }
+
+    public void setTamaño(int tamaño) {
+        this.tamaño = tamaño;
+    }
+
+    public NodoDoble<T> getFirstNodo() {
+        return firstNodo;
+    }
+
+    public void setFirstNodo(NodoDoble<T> firstNodo) {
+        this.firstNodo = firstNodo;
+    }
+
+    public NodoDoble<T> getLastNodo() {
+        return lastNodo;
+    }
+
+    public void setLastNodo(NodoDoble<T> lastNodo) {
+        this.lastNodo = lastNodo;
+    }
+
+
+
 }
