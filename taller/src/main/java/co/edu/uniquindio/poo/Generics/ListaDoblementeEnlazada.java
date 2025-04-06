@@ -5,69 +5,55 @@ public class ListaDoblementeEnlazada<T> {
     private NodoDoble<T> firstNodo;
     private NodoDoble<T> lastNodo;
 
-    public ListaDoblementeEnlazada(){
+    public ListaDoblementeEnlazada() {
     }
 
-    public boolean isEmpty(){
-        if(tamaño == 0){
-            return true;
-        }
-        return false;
+    public boolean isEmpty() {
+        return tamaño == 0;
     }
 
-    public void addFirst(T valor){
-        if(isEmpty()){
-            firstNodo = new NodoDoble<T>(valor);
-            lastNodo = firstNodo;
-        }
-        else{
-            NodoDoble<T> nuevoNodo = new NodoDoble<T>(valor);
+    public void addFirst(T valor) {
+        NodoDoble<T> nuevoNodo = new NodoDoble<>(valor);
+        if (isEmpty()) {
+            firstNodo = lastNodo = nuevoNodo;
+        } else {
             nuevoNodo.setSiguienteNodo(firstNodo);
+            firstNodo.setNodoAnterior(nuevoNodo);
             firstNodo = nuevoNodo;
-            
         }
         tamaño++;
     }
 
-    public void add(T valor){
-        if(isEmpty()){
-            firstNodo = new NodoDoble<T>(valor);
-            lastNodo = firstNodo;
-        }
-        else{
-            NodoDoble<T> nodoActual = firstNodo;
-            while(nodoActual.getSiguienteNodo() != null){
-                nodoActual = nodoActual.getSiguienteNodo();
-            }
-            NodoDoble<T> nuevoNodo = new NodoDoble<T>(valor);
-            nodoActual.setSiguienteNodo(nuevoNodo);
-            nuevoNodo.setNodoAnterior(nodoActual);
+    public void add(T valor) {
+        NodoDoble<T> nuevoNodo = new NodoDoble<>(valor);
+        if (isEmpty()) {
+            firstNodo = lastNodo = nuevoNodo;
+        } else {
+            lastNodo.setSiguienteNodo(nuevoNodo);
+            nuevoNodo.setNodoAnterior(lastNodo);
             lastNodo = nuevoNodo;
         }
         tamaño++;
     }
 
-    public void printList(){
-        if(isEmpty()){
+    public void printList() {
+        if (isEmpty()) {
             System.out.println("La lista esta vacia");
-        }
-        else{
+        } else {
             NodoDoble<T> actual = firstNodo;
-            while(actual != null){
+            while (actual != null) {
                 System.out.println(actual.getValor());
                 actual = actual.getSiguienteNodo();
             }
         }
     }
 
-    //ejercicio 6
-    public void printReverseList(){
-        if(isEmpty()){
+    public void printReverseList() {
+        if (isEmpty()) {
             System.out.println("La lista esta vacia");
-        }
-        else{
+        } else {
             NodoDoble<T> actual = lastNodo;
-            while(actual != null){
+            while (actual != null) {
                 System.out.println(actual.getValor());
                 actual = actual.getNodoAnterior();
             }
@@ -98,6 +84,63 @@ public class ListaDoblementeEnlazada<T> {
         this.lastNodo = lastNodo;
     }
 
+   
+    public void agregar(T valor, int posicion) {
+        if (posicion < 0 || posicion > tamaño) {
+            throw new IndexOutOfBoundsException("Posición inválida");
+        }
 
+        if (posicion == 0) {
+            addFirst(valor);
+            return;
+        }
 
+        if (posicion == tamaño) {
+            add(valor);
+            return;
+        }
+
+        NodoDoble<T> nuevoNodo = new NodoDoble<>(valor);
+        NodoDoble<T> actual = firstNodo;
+
+        for (int i = 0; i < posicion; i++) {
+            actual = actual.getSiguienteNodo();
+        }
+
+        nuevoNodo.setSiguienteNodo(actual);
+        nuevoNodo.setNodoAnterior(actual.getNodoAnterior());
+        actual.getNodoAnterior().setSiguienteNodo(nuevoNodo);
+        actual.setNodoAnterior(nuevoNodo);
+
+        tamaño++;
+    }
+
+    public void remove(T valor) {
+        NodoDoble<T> actual = firstNodo;
+
+        while (actual != null) {
+            if (actual.getValor().equals(valor)) {
+                NodoDoble<T> anterior = actual.getNodoAnterior();
+                NodoDoble<T> siguiente = actual.getSiguienteNodo();
+
+                if (anterior != null) {
+                    anterior.setSiguienteNodo(siguiente);
+                } else {
+                    firstNodo = siguiente;
+                }
+
+                if (siguiente != null) {
+                    siguiente.setNodoAnterior(anterior);
+                } else {
+                    lastNodo = anterior;
+                }
+
+                tamaño--;
+                return;
+            }
+            actual = actual.getSiguienteNodo();
+        }
+
+        throw new RuntimeException("Elemento no encontrado en la lista");
+    }
 }
